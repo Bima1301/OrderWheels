@@ -1,15 +1,15 @@
 import { useEffect } from "react";
-import Checkbox from "@/Components/Checkbox";
 import GuestLayout from "@/Layouts/GuestLayout";
-import InputError from "@/Components/Atoms/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { Alert, IconButton } from "@mui/material";
 import { useState } from "react";
 
 import { FaTimes } from "react-icons/fa";
+import TextInput from "@/Components/Atoms/TextInput";
+import Checkbox from "@/Components/Atoms/Checkbox";
+import PrimaryButton from "@/Components/Atoms/PrimaryButton";
+import InputLabel from "@/Components/Atoms/InputLabel";
+import InputError from "@/Components/Atoms/InputError";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -151,14 +151,21 @@ export default function Login({ status, canResetPassword }) {
                     </div>
 
                     <div className="flex items-center justify-end mt-4">
-                        {canResetPassword && (
+                        {/* {canResetPassword && (
                             <Link
                                 href={route("password.request")}
                                 className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Forgot your password?
                             </Link>
-                        )}
+                        )} */}
+
+                        <Link
+                            href={route("register")}
+                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Don't have an account?{" "}
+                        </Link>
 
                         <PrimaryButton className="ml-4" disabled={processing}>
                             Log in

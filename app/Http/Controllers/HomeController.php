@@ -12,6 +12,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Home');
+        $data = [
+            "pageName" => "Dashboard",
+        ];
+        return Inertia::render('Home', $data);
     }
 }
