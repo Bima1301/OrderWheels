@@ -7,7 +7,7 @@ import { GiCarWheel } from "react-icons/gi";
 const Sidebar = ({ setShowNav, category }) => {
     const { pageName } = usePage().props;
     return (
-        <aside className="fixed z-40 top-0 flex flex-col justify-between h-screen  bg-purple-500 transition duration-300 xl:w-64 w-60">
+        <aside className="fixed  top-0 flex flex-col justify-between h-screen  bg-purple-500 transition duration-300 xl:w-64 w-60 ">
             <div className="w-full md:hidden flex p-2 justify-end text-white absolute">
                 <button
                     onClick={() => {
@@ -19,7 +19,7 @@ const Sidebar = ({ setShowNav, category }) => {
             </div>
             <Link
                 href={"/"}
-                className="flex justify-center py-8 bg-purple-600 mb-8"
+                className="flex justify-center py-8 bg-purple-600 mb-3"
             >
                 <picture className="flex flex-row items-center  gap-1">
                     <GiCarWheel className="text-white" size={30} />

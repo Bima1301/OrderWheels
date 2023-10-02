@@ -17,7 +17,7 @@ const Transition = ({ show, duration = 400, children }) => {
     }, [show, duration]);
 
     return (
-        <div className="fixed left-0 top-0 w-full">
+        <div className="fixed left-0 top-0 w-full z-50">
             <div
                 className={`transition-transform duration-${duration} transform ${
                     show ? "translate-x-0" : "-translate-x-full"

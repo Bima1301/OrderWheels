@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\VehicleTypeEnum;
 use App\Models\Vehicle;
 use App\Http\Requests\StoreVehicleRequest;
 use App\Http\Requests\UpdateVehicleRequest;
@@ -16,8 +17,10 @@ class VehicleController extends Controller
     {
         $data = [
             "pageName" => "Vehicle",
+            'vehicle_type' => VehicleTypeEnum::getValues(),
+
         ];
-        return Inertia::render('Vehicle', $data);
+        return Inertia::render('Vehicle/Index', $data);
     }
 
     /**
@@ -25,7 +28,11 @@ class VehicleController extends Controller
      */
     public function create()
     {
-        //
+        $data = [
+            "pageName" => "Vehicle",
+            'vehicle_type' => VehicleTypeEnum::getValues(),
+        ];
+        return Inertia::render('Vehicle/Create', $data);
     }
 
     /**
@@ -33,7 +40,11 @@ class VehicleController extends Controller
      */
     public function store(StoreVehicleRequest $request)
     {
-        //
+        $vehicleData = $request->all();
+        $vehicleData['image'] = $request->file('image')->store('images/vihicle', 'public');
+        Vehicle::create($vehicleData);
+
+        return redirect()->route('vehicle.index')->with('success', 'Berhasil menambahkan data kendaraan.');
     }
 
     /**

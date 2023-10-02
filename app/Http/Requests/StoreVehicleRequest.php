@@ -11,7 +11,7 @@ class StoreVehicleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class StoreVehicleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'type' => 'required|max:255',
+            'name' => 'required|max:255',
+            'description' => 'required|max:255',
+            'image' => 'required|file|image|max:1024',
+            'amount' => 'required|numeric|min:0|max:99999999999',
+            'plate_number' => 'required|max:255',
+            'service_distance' => 'required|numeric|min:0|max:99999999999',
         ];
     }
 }
