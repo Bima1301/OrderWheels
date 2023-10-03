@@ -99,12 +99,15 @@ export default function Index(props) {
                 headerText="Data Booking"
                 rightButton={
                     <>
-                        <Link
-                            href="/booking/export-pdf"
-                            className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"
-                        >
-                            Export PDF
-                        </Link>
+                        {props?.auth?.user?.role?.name === "admin" && (
+                            <a
+                                href="/booking/export-excel"
+                                target="_blank"
+                                className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"
+                            >
+                                Export Excel
+                            </a>
+                        )}
                     </>
                 }
             >

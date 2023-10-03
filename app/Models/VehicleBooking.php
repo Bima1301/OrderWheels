@@ -19,4 +19,9 @@ class VehicleBooking extends Model
     {
         return $this->hasOne(FuelConsumption::class);
     }
+
+    public function approver()
+    {
+        return  $this->belongsTo(User::class, 'approved_by');
+    }
 }

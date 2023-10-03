@@ -52,5 +52,8 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    
+    // public function vehicle_bookings_approver()
+    // {
+    //     return $this->hasMany(VehicleBooking::class, 'id');
+    // }
 }

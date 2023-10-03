@@ -6,7 +6,7 @@ import React from "react";
 
 function className({ active }) {
     return clsx(
-        `pl-6 py-3 mx-5 rounded-md text-center cursor-pointer mb-3 flex items-center transition-colors md:text-base text-sm`,
+        ` pl-6 py-3 mx-5 rounded-md text-center cursor-pointer mb-3 flex items-center transition-colors md:text-base text-sm`,
         active
             ? "bg-indigo-600 bg-opacity-[0.5] text-white"
             : "text-white hover:bg-indigo-600 hover:bg-opacity-[0.6] hover:text-white"

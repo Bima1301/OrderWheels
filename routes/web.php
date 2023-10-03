@@ -31,6 +31,8 @@ Route::get('/', [HomeController::class, 'index'])->middleware(['auth'])->name('h
 
 Route::get('/booking', [VehicleBookingController::class, 'index'])->middleware(['auth'])->name('index-booking');
 
+Route::get('/booking/export-excel', [VehicleBookingController::class, 'exportExcel'])->middleware(['auth', 'role:admin'])->name('export-booking-excel');
+
 Route::get('/booking/{idVehicle}', [VehicleBookingController::class, 'create'])->middleware(['auth', 'role:admin'])->name('create-booking');
 
 Route::post('/booking/{idVehicle}', [VehicleBookingController::class, 'store'])->middleware(['auth', 'role:admin'])->name('store-booking');

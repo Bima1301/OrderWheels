@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\VehicleTypeEnum;
+use App\Exports\ExportBooking;
 use App\Models\VehicleBooking;
 use App\Http\Requests\StoreVehicleBookingRequest;
 use App\Http\Requests\UpdateVehicleBookingRequest;
@@ -12,6 +13,7 @@ use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VehicleBookingController extends Controller
 {
@@ -149,5 +151,12 @@ class VehicleBookingController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Booking berhasil diupdate');
+    }
+
+    public function exportExcel()
+    {
+        //file name is date now + booking.xlsx
+        $fileName = date('Y-m-d') . '-booking.xlsx';
+        return Excel::download(new ExportBooking, $fileName);
     }
 }
