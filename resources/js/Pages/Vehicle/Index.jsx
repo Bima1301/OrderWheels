@@ -1,9 +1,9 @@
 import Card from "@/Components/Atoms/Card";
 import InputLabel from "@/Components/Atoms/InputLabel";
 import Searchbar from "@/Components/Atoms/Searchbar";
-import VehicleTable from "@/Components/Molecules/VehicleTable";
+import VehicleTable from "@/Components/Molecules/Vehicle/VehicleTable";
 import MainLayout from "@/Layouts/MainLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import {
     Alert,
     FormControl,
@@ -15,9 +15,21 @@ import {
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
+const debounce = (func, wait) => {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+};
+
 export default function Index(props) {
-    const [age, setAge] = useState("");
     const [openAlert, setOpenAlert] = useState("");
+    const [query, setQuery] = useState({
+        keyword: props?.keyword || "",
+        page: 1,
+        type: props?.type || "",
+    });
 
     useEffect(() => {
         if (props.flash?.success) {
@@ -26,8 +38,39 @@ export default function Index(props) {
     }, [props.flash]);
 
     const handleChange = (event) => {
-        setAge(event.target.value);
+        event.preventDefault();
+        setQuery({ ...query, type: event.target.value });
+        router.get(
+            "vehicle",
+            {
+                ...query,
+                type: event.target.value,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            }
+        );
     };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        setQuery({ ...query, keyword: e.target.value });
+        router.get(
+            "vehicle",
+            {
+                ...query,
+                keyword: e.target.value,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            }
+        );
+    };
+
+    const handleDeboucheSearch = debounce(handleSearch, 400);
+
     return (
         <MainLayout>
             {openAlert && (
@@ -65,12 +108,16 @@ export default function Index(props) {
                 }
             >
                 <div className="flex md:flex-row flex-col justify-between md:items-center gap-5 mb-3">
-                    <Searchbar placeholder={"Search Vehicle"} />
+                    <Searchbar
+                        placeholder={"Search Vehicle"}
+                        onChange={handleDeboucheSearch}
+                        defaultValue={query?.keyword}
+                    />
                     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
                         <Select
                             labelId="demo-select-small-label"
                             id="demo-select-small"
-                            value={age}
+                            value={query?.type}
                             displayEmpty
                             label="Age"
                             onChange={handleChange}
@@ -86,6 +133,9 @@ export default function Index(props) {
                             <MenuItem disabled value="">
                                 <em>Pilih Tipe</em>
                             </MenuItem>
+                            <MenuItem value="">
+                                <em className="text-red-500">None</em>
+                            </MenuItem>
                             {props?.vehicle_type?.map((item, index) => (
                                 <MenuItem key={index} value={item}>
                                     {item}
@@ -94,7 +144,7 @@ export default function Index(props) {
                         </Select>
                     </FormControl>
                 </div>
-                <VehicleTable />
+                <VehicleTable data={props?.vehicles} query={query} />
             </Card>
         </MainLayout>
     );

@@ -6,6 +6,7 @@ use App\Enums\VehicleTypeEnum;
 use App\Models\Vehicle;
 use App\Http\Requests\StoreVehicleRequest;
 use App\Http\Requests\UpdateVehicleRequest;
+use App\Http\Resources\DataToCollection;
 use Inertia\Inertia;
 
 class VehicleController extends Controller
@@ -15,10 +16,24 @@ class VehicleController extends Controller
      */
     public function index()
     {
+        // get params
+        $keyword = request()->query('keyword');
+        $type = request()->query('type');
         $data = [
             "pageName" => "Vehicle",
+            'vehicles' => new DataToCollection(Vehicle::where(
+                function ($query) use ($keyword, $type) {
+                    if ($keyword) {
+                        $query->where('name', 'LIKE', "%{$keyword}%");
+                    }
+                    if ($type) {
+                        $query->where('type', $type);
+                    }
+                }
+            )->latest()->paginate(10)),
             'vehicle_type' => VehicleTypeEnum::getValues(),
-
+            'keyword' => $keyword ?? '',
+            'type' => $type ?? '',
         ];
         return Inertia::render('Vehicle/Index', $data);
     }
@@ -41,7 +56,7 @@ class VehicleController extends Controller
     public function store(StoreVehicleRequest $request)
     {
         $vehicleData = $request->all();
-        $vehicleData['image'] = $request->file('image')->store('images/vihicle', 'public');
+        $vehicleData['image'] = $request->file('image')->store('images/vehicle', 'public');
         Vehicle::create($vehicleData);
 
         return redirect()->route('vehicle.index')->with('success', 'Berhasil menambahkan data kendaraan.');

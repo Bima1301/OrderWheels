@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\VehicleTypeEnum;
 use App\Models\VehicleBooking;
 use App\Http\Requests\StoreVehicleBookingRequest;
 use App\Http\Requests\UpdateVehicleBookingRequest;
+use App\Models\User;
+use App\Models\Vehicle;
+use Inertia\Inertia;
 
 class VehicleBookingController extends Controller
 {
@@ -19,9 +23,16 @@ class VehicleBookingController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($vehicleID)
     {
-        //
+        $vehicle = Vehicle::findOrFail($vehicleID);
+        $data = [
+            "pageName" => "Vehicle",
+            'vehicle' => $vehicle,
+            'vehicle_type' => VehicleTypeEnum::getValues(),
+            'users' => User::all(),
+        ];
+        return Inertia::render('Booking/Create', $data);
     }
 
     /**
@@ -29,7 +40,7 @@ class VehicleBookingController extends Controller
      */
     public function store(StoreVehicleBookingRequest $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

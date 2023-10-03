@@ -24,7 +24,9 @@
         "@emotion/styled": "^11.11.0",
         "@mui/icons-material": "^5.14.11",
         "@mui/material": "^5.14.11",
+        "@mui/x-date-pickers": "^6.16.0",
         "clsx": "^2.0.0",
+        "dayjs": "^1.11.10",
         "react-hot-toast": "^2.4.1",
         "react-icons": "^4.11.0"
     }

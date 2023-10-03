@@ -11,7 +11,7 @@ class StoreVehicleBookingRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreVehicleBookingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'driver_name' => 'required|max:255',
+            'purpose' => 'required|max:255',
+            'booking_date' => 'required|date',
+            'return_date' => 'required|date',
+            'approved_by' => 'required|integer|exists:users,id',
         ];
     }
 }

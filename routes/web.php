@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VehicleBookingController;
 use App\Http\Controllers\VehicleController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -28,6 +28,8 @@ use Inertia\Inertia;
 // });
 
 Route::get('/', [HomeController::class, 'index'])->middleware(['auth'])->name('home');
+Route::get('/vehicle/booking/{idVehicle}', [VehicleBookingController::class, 'create'])->middleware(['auth'])->name('create-booking');
+Route::post('/vehicle/booking', [VehicleBookingController::class, 'store'])->middleware(['auth'])->name('store-booking');
 Route::resource('vehicle', VehicleController::class)->middleware(['auth']);
 
 Route::get('/dashboard', function () {
