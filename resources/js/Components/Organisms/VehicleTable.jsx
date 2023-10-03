@@ -136,12 +136,16 @@ export default function VehicleTable({ data, query }) {
                                     </p>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Link
-                                        href={`/booking/${row.id}`}
-                                        className="bg-purple-600 px-4 py-3 rounded-md text-white font-bold inline-flex items-center gap-2 hover:bg-purple-500"
-                                    >
-                                        Pinjam <MdCarRental size={20} />
-                                    </Link>
+                                    {row.amount > 0 ? (
+                                        <Link
+                                            href={`/booking/${row.id}`}
+                                            className="bg-purple-600 px-4 py-3 rounded-md text-white font-bold inline-flex items-center gap-2 hover:bg-purple-500"
+                                        >
+                                            Pinjam <MdCarRental size={20} />
+                                        </Link>
+                                    ) : (
+                                        "-"
+                                    )}
                                 </StyledTableCell>
                             </StyledTableRow>
                         ))}

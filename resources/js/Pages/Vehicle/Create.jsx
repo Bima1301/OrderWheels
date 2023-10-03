@@ -35,7 +35,7 @@ export default function Create(props) {
         e.preventDefault();
         post(route("vehicle.store"), {
             preserveScroll: false,
-            preserveState: true,
+            preserveState: false,
             onProgress: () => {
                 toast.loading("Loading...");
             },

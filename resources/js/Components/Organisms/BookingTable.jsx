@@ -62,7 +62,6 @@ function createData(
 }
 
 export default function BookingTable({ data, query, userRole }) {
-    console.log();
     const [modalShow, setModalShow] = useState(false);
 
     const { data: booking } = data;

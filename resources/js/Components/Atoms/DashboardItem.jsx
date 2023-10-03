@@ -12,7 +12,15 @@ function className({ active }) {
             : "text-white hover:bg-indigo-600 hover:bg-opacity-[0.6] hover:text-white"
     );
 }
-const Items = ({ label, icon: Icon, active, href, onClick, isButton }) => (
+const Items = ({
+    label,
+    icon: Icon,
+    active,
+    href,
+    onClick,
+    isButton,
+    method,
+}) => (
     <>
         {isButton ? (
             <div onClick={onClick} className={className({ active })}>
@@ -22,7 +30,7 @@ const Items = ({ label, icon: Icon, active, href, onClick, isButton }) => (
                 </div>
             </div>
         ) : (
-            <Link href={href} className={className({ active })}>
+            <Link href={href} className={className({ active })} method={method}>
                 <Icon className="h-5 w-5 shrink-0 mr-2 " />
                 <div>
                     <p>{label}</p>
@@ -48,6 +56,7 @@ const DashboardItem = ({ mainLabel, items, pageName, userRole }) => (
                         href={item.href}
                         isButton={item.isButton}
                         onClick={item.onClick}
+                        method={item.method}
                     />
                 );
             }

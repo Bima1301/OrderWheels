@@ -28,17 +28,25 @@ use Inertia\Inertia;
 // });
 
 Route::get('/', [HomeController::class, 'index'])->middleware(['auth'])->name('home');
+
 Route::get('/booking', [VehicleBookingController::class, 'index'])->middleware(['auth'])->name('index-booking');
-Route::patch('/booking/approval/{idBooking}', [VehicleBookingController::class, 'approvalBooking'])->middleware(['auth'])->name('approval-booking');
-Route::get('/booking/{idVehicle}', [VehicleBookingController::class, 'create'])->middleware(['auth'])->name('create-booking');
-Route::post('/booking', [VehicleBookingController::class, 'store'])->middleware(['auth'])->name('store-booking');
-Route::get('/booking/return/{idBooking}', [VehicleBookingController::class, 'edit'])->middleware(['auth'])->name('edit-booking');
-Route::patch('/booking/return/{idBooking}', [VehicleBookingController::class, 'update'])->middleware(['auth'])->name('update-booking');
 
-Route::get('/users', [HomeController::class, 'users'])->middleware(['auth'])->name('users');
-Route::patch('/users/role/update/{userId}', [HomeController::class, 'updateRole'])->middleware(['auth'])->name('update-user-role');
+Route::get('/booking/{idVehicle}', [VehicleBookingController::class, 'create'])->middleware(['auth', 'role:admin'])->name('create-booking');
 
-Route::resource('vehicle', VehicleController::class)->middleware(['auth']);
+Route::post('/booking/{idVehicle}', [VehicleBookingController::class, 'store'])->middleware(['auth', 'role:admin'])->name('store-booking');
+
+Route::patch('/booking/approval/{idBooking}', [VehicleBookingController::class, 'approvalBooking'])->middleware(['auth', 'role:approver'])->name('approval-booking');
+
+
+Route::get('/booking/return/{idBooking}', [VehicleBookingController::class, 'edit'])->middleware(['auth', 'role:admin'])->name('return-booking');
+
+Route::patch('/booking/return/{idBooking}', [VehicleBookingController::class, 'update'])->middleware(['auth', 'role:admin'])->name('update-booking');
+
+Route::get('/users', [HomeController::class, 'users'])->middleware(['auth', 'role:admin'])->name('users');
+
+Route::patch('/users/role/update/{userId}', [HomeController::class, 'updateRole'])->middleware(['auth', 'role:admin'])->name('update-user-role');
+
+Route::resource('vehicle', VehicleController::class)->middleware(['auth', 'role:admin']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

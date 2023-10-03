@@ -28,7 +28,7 @@ export default function ReturnModal({ show, onHide, dataEdit }) {
         e.preventDefault();
         post(route("update-booking", dataEdit?.id), {
             preserveScroll: false,
-            preserveState: true,
+            preserveState: false,
             onProgress: () => {
                 toast.loading("Loading...");
             },

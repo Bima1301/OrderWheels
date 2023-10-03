@@ -28,7 +28,7 @@ export default function ApprovalModal({ show, onHide, dataEdit }) {
         e.preventDefault();
         patch(route("approval-booking", dataEdit?.id), {
             preserveScroll: false,
-            preserveState: true,
+            preserveState: false,
             onProgress: () => {
                 toast.loading("Loading...");
             },

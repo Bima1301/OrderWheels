@@ -48,7 +48,7 @@ export default function Index(props) {
                 status: event.target.value,
             },
             {
-                preserveState: true,
+                preserveState: false,
                 preserveScroll: true,
             }
         );

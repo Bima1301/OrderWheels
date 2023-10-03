@@ -48,7 +48,6 @@ export default function UsersTable({ data, query, roles }) {
     const [modalShow, setModalShow] = useState(false);
 
     const { data: users } = data;
-    console.log(users);
     const rows = users.map((item) => {
         return createData(
             item.id,

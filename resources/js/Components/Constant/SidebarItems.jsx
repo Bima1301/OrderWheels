@@ -54,6 +54,7 @@ export const sidebarItems = [
                     {
                         label: "Keluar",
                         href: "/logout",
+                        method: "post",
                         role: "all",
                         icon: BsDoorOpenFill,
                     },

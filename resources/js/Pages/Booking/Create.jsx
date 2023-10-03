@@ -35,9 +35,9 @@ export default function Create(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("store-booking"), {
+        post(route("store-booking", props?.vehicle?.id), {
             preserveScroll: false,
-            preserveState: true,
+            preserveState: false,
             onProgress: () => {
                 toast.loading("Loading...");
             },

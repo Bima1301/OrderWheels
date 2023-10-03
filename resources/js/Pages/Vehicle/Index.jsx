@@ -24,7 +24,10 @@ const debounce = (func, wait) => {
 };
 
 export default function Index(props) {
-    const [openAlert, setOpenAlert] = useState("");
+    const [openAlert, setOpenAlert] = useState({
+        success: false,
+        error: false,
+    });
     const [query, setQuery] = useState({
         keyword: props?.keyword || "",
         page: 1,
@@ -32,11 +35,12 @@ export default function Index(props) {
     });
 
     useEffect(() => {
-        if (props.flash?.success) {
+        if (props?.flash?.success) {
             setOpenAlert({ success: true, error: false });
+        } else if (props?.flash?.error) {
+            setOpenAlert({ success: false, error: true });
         }
     }, [props.flash]);
-
     const handleChange = (event) => {
         event.preventDefault();
         setQuery({ ...query, type: event.target.value });
@@ -47,7 +51,7 @@ export default function Index(props) {
                 type: event.target.value,
             },
             {
-                preserveState: true,
+                preserveState: false,
                 preserveScroll: true,
             }
         );
@@ -63,7 +67,7 @@ export default function Index(props) {
                 keyword: e.target.value,
             },
             {
-                preserveState: true,
+                preserveState: false,
                 preserveScroll: true,
             }
         );
@@ -73,7 +77,27 @@ export default function Index(props) {
 
     return (
         <MainLayout>
-            {openAlert && (
+            {openAlert?.error && (
+                <Alert
+                    severity="error"
+                    action={
+                        <IconButton
+                            aria-label="close"
+                            color="inherit"
+                            size="small"
+                            onClick={() => {
+                                setOpenAlert(false);
+                            }}
+                        >
+                            <FaTimes />
+                        </IconButton>
+                    }
+                    sx={{ mb: 2 }}
+                >
+                    {props?.flash?.error}
+                </Alert>
+            )}
+            {openAlert.success && (
                 <Alert
                     severity="success"
                     action={

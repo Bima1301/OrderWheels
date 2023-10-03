@@ -22,9 +22,16 @@ class VehicleBookingController extends Controller
     {
         $keyword = request()->query('keyword');
         $status = request()->query('status');
+        $user = auth()->user();
         $data = [
             "pageName" => "Data Booking",
-            'booking_vehicle' => new DataToCollection(VehicleBooking::with(['vehicle', 'fuel_consumption'])->where(
+            'booking_vehicle' => new DataToCollection(VehicleBooking::where(
+                function ($query) use ($user) {
+                    if ($user->role->name === 'approver') {
+                        $query->where('approved_by', $user->id);
+                    }
+                }
+            )->with(['vehicle', 'fuel_consumption'])->where(
                 function ($query) use ($keyword, $status) {
                     if ($keyword) {
                         $query->where('driver_name', 'LIKE', "%{$keyword}%");
@@ -46,6 +53,9 @@ class VehicleBookingController extends Controller
     public function create($vehicleID)
     {
         $vehicle = Vehicle::findOrFail($vehicleID);
+        if ($vehicle->amount <= 0) {
+            return redirect()->back()->with('error', 'Kendaraan tidak tersedia');
+        }
         $data = [
             "pageName" => "Daftar Kendaraan",
             'vehicle' => $vehicle,
@@ -58,12 +68,22 @@ class VehicleBookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVehicleBookingRequest $request)
+    public function store(StoreVehicleBookingRequest $request, $vehicleID)
     {
+        //check if vehicle is available
+        $vehicle = Vehicle::findOrFail($vehicleID);
+        if ($vehicle->amount <= 0) {
+            return redirect()->back()->with('error', 'Kendaraan tidak tersedia');
+        }
+
         $bookingData = $request->all();
         $bookingData['user_id'] = auth()->user()->id;
 
         VehicleBooking::create($bookingData);
+
+        $vehicle->update([
+            'amount' => $vehicle->amount - 1,
+        ]);
 
         return redirect()->route('index-booking')->with('success', 'Booking berhasil ditambahkan');
     }

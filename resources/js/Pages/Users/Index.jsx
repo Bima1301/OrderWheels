@@ -46,7 +46,7 @@ export default function Index(props) {
                 role: event.target.value,
             },
             {
-                preserveState: true,
+                preserveState: false,
                 preserveScroll: true,
             }
         );
@@ -62,7 +62,7 @@ export default function Index(props) {
                 keyword: e.target.value,
             },
             {
-                preserveState: true,
+                preserveState: false,
                 preserveScroll: true,
             }
         );

@@ -59,7 +59,7 @@ class VehicleController extends Controller
         $vehicleData['image'] = $request->file('image')->store('images/vehicle', 'public');
         Vehicle::create($vehicleData);
 
-        return redirect()->route('index-booking')->with('success', 'Berhasil menambahkan data kendaraan.');
+        return redirect()->route('vehicle.index')->with('success', 'Berhasil menambahkan data kendaraan.');
     }
 
     /**
