@@ -62,7 +62,7 @@ class VehicleBookingController extends Controller
             "pageName" => "Daftar Kendaraan",
             'vehicle' => $vehicle,
             'vehicle_type' => VehicleTypeEnum::getValues(),
-            'users' => User::all(),
+            'users' => User::where('role_id', 2)->get(),
         ];
         return Inertia::render('Booking/Create', $data);
     }

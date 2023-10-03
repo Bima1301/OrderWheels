@@ -10,7 +10,6 @@ import {
 } from "recharts";
 
 export default function VehicleChart({ monthlyUsage }) {
-    console.log(monthlyUsage);
     const data = Object.entries(monthlyUsage).map(([key, value]) => {
         return {
             Bulan: key,
