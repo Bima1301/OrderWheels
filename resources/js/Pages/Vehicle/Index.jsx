@@ -1,7 +1,7 @@
 import Card from "@/Components/Atoms/Card";
 import InputLabel from "@/Components/Atoms/InputLabel";
 import Searchbar from "@/Components/Atoms/Searchbar";
-import VehicleTable from "@/Components/Molecules/Vehicle/VehicleTable";
+import VehicleTable from "@/Components/Organisms/VehicleTable";
 import MainLayout from "@/Layouts/MainLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import {

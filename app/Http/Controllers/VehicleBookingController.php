@@ -7,6 +7,7 @@ use App\Models\VehicleBooking;
 use App\Http\Requests\StoreVehicleBookingRequest;
 use App\Http\Requests\UpdateVehicleBookingRequest;
 use App\Http\Resources\DataToCollection;
+use App\Models\FuelConsumption;
 use App\Models\User;
 use App\Models\Vehicle;
 use Inertia\Inertia;
@@ -22,7 +23,7 @@ class VehicleBookingController extends Controller
         $status = request()->query('status');
         $data = [
             "pageName" => "Data Booking",
-            'booking_vehicle' => new DataToCollection(VehicleBooking::where(
+            'booking_vehicle' => new DataToCollection(VehicleBooking::with(['vehicle', 'fuel_consumption'])->where(
                 function ($query) use ($keyword, $status) {
                     if ($keyword) {
                         $query->where('driver_name', 'LIKE', "%{$keyword}%");
@@ -77,17 +78,34 @@ class VehicleBookingController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(VehicleBooking $vehicleBooking)
+    public function edit($vehicleBookingId)
     {
-        //
+
+        $vehicleBooking = VehicleBooking::findOrFail($vehicleBookingId)->with('vehicle')->first();
+
+        $data = [
+            "pageName" => "Data Booking",
+            'vehicle_booking' => $vehicleBooking,
+        ];
+        return Inertia::render('Booking/Update', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateVehicleBookingRequest $request, VehicleBooking $vehicleBooking)
+    public function update(UpdateVehicleBookingRequest $request, $vehicleBookingId)
     {
-        //
+        $vehicleBooking = VehicleBooking::findOrFail($vehicleBookingId);
+        $vehicleBooking->update([
+            'status' => 'returned',
+        ]);
+
+        $vehicleBookingData = $request->all();
+        $vehicleBookingData['vehicle_id'] = $vehicleBooking->vehicle_id;
+        $vehicleBookingData['vehicle_booking_id'] = $vehicleBooking->id;
+        FuelConsumption::create($vehicleBookingData);
+
+        return redirect()->back()->with('success', 'Booking berhasil diupdate');
     }
 
     /**

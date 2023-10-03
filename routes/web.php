@@ -31,6 +31,10 @@ Route::get('/', [HomeController::class, 'index'])->middleware(['auth'])->name('h
 Route::get('/booking', [VehicleBookingController::class, 'index'])->middleware(['auth'])->name('index-booking');
 Route::get('/booking/{idVehicle}', [VehicleBookingController::class, 'create'])->middleware(['auth'])->name('create-booking');
 Route::post('/booking', [VehicleBookingController::class, 'store'])->middleware(['auth'])->name('store-booking');
+Route::get('/booking/return/{idBooking}', [VehicleBookingController::class, 'edit'])->middleware(['auth'])->name('edit-booking');
+Route::patch('/booking/return/{idBooking}', [VehicleBookingController::class, 'update'])->middleware(['auth'])->name('update-booking');
+
+
 Route::resource('vehicle', VehicleController::class)->middleware(['auth']);
 
 Route::get('/dashboard', function () {

@@ -7,9 +7,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Pagination, Stack } from "@mui/material";
+import { Pagination } from "@mui/material";
 import { useState } from "react";
-import ImageShowModal from "./ImageShowModal";
+import ImageShowModal from "../Molecules/Vehicle/ImageShowModal";
 import { Link, router } from "@inertiajs/react";
 import { MdCarRental } from "react-icons/md";
 
@@ -27,7 +27,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
         backgroundColor: "#e2e8f0",
     },
-    // hide last border
     "&:last-child td, &:last-child th": {
         border: 0,
     },
@@ -71,7 +70,6 @@ export default function VehicleTable({ data, query }) {
             item.plate_number
         );
     });
-    console.log(modalShow);
     return (
         <>
             <TableContainer component={Paper}>

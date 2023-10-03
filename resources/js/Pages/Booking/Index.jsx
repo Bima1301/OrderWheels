@@ -1,8 +1,8 @@
 import Card from "@/Components/Atoms/Card";
 import InputLabel from "@/Components/Atoms/InputLabel";
 import Searchbar from "@/Components/Atoms/Searchbar";
-import BookingTable from "@/Components/Molecules/Booking/BookingTable";
-import VehicleTable from "@/Components/Molecules/Vehicle/VehicleTable";
+import BookingTable from "@/Components/Organisms/BookingTable";
+import VehicleTable from "@/Components/Organisms/VehicleTable";
 import MainLayout from "@/Layouts/MainLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import {
@@ -132,6 +132,8 @@ export default function Index(props) {
                                     return <em>Disetujui</em>;
                                 } else if (selected === "rejected") {
                                     return <em>Ditolak</em>;
+                                } else if (selected === "returned") {
+                                    return <em>Dikembalikan</em>;
                                 }
                             }}
                         >

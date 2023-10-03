@@ -38,7 +38,6 @@ const DashboardItem = ({ mainLabel, items, pageName }) => (
             {mainLabel}
         </p>
         {items.map((item, index) => {
-            console.log(item.label);
             return (
                 <Items
                     key={index}

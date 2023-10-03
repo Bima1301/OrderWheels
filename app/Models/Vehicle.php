@@ -10,4 +10,13 @@ class Vehicle extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
+    public function vehicle_bookings()
+    {
+        return $this->hasMany(VehicleBooking::class);
+    }
+
+    public function fuel_consumptions()
+    {
+        return $this->hasMany(FuelConsumption::class);
+    }
 }

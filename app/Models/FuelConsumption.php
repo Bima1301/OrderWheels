@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class VehicleBooking extends Model
+class FuelConsumption extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
@@ -14,9 +14,9 @@ class VehicleBooking extends Model
     {
         return $this->belongsTo(Vehicle::class);
     }
-
-    public function fuel_consumption()
+    
+    public function vehicle_booking()
     {
-        return $this->hasOne(FuelConsumption::class);
+        return $this->belongsTo(VehicleBooking::class);
     }
 }

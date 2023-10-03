@@ -10,6 +10,7 @@ import { BsSave } from "react-icons/bs";
 import SaveButton from "@/Components/Atoms/SaveButton";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import TextAreaInput from "@/Components/Atoms/TextAreaInput";
 
 export default function Create(props) {
     const [previewImg, setPreviewImg] = useState("");
@@ -67,22 +68,7 @@ export default function Create(props) {
                         />
                         <InputError message={errors?.name} className="mt-2" />
                     </div>
-                    <div className="mt-4">
-                        <InputLabel htmlFor="description" value="Deskripsi" />
-                        <TextInput
-                            id="description"
-                            type="text"
-                            name="description"
-                            value={data?.description}
-                            onChange={handleChange}
-                            className="mt-1 block w-full"
-                            autoComplete="current-description"
-                        />
-                        <InputError
-                            message={errors?.description}
-                            className="mt-2"
-                        />
-                    </div>
+
                     <div className="flex md:flex-row flex-col md:gap-3 gap-0 justify-center md:mb-4 mb-0">
                         <div className="mt-4 w-full">
                             <InputLabel
@@ -228,6 +214,22 @@ export default function Create(props) {
                                 />
                             </div>
                         </div>
+                    </div>
+                    <div className="mt-4">
+                        <InputLabel htmlFor="description" value="Deskripsi" />
+                        <TextAreaInput
+                            id="description"
+                            type="text"
+                            name="description"
+                            value={data?.description}
+                            onChange={handleChange}
+                            className="mt-1 block w-full"
+                            autoComplete="current-description"
+                        />
+                        <InputError
+                            message={errors?.description}
+                            className="mt-2"
+                        />
                     </div>
                     <div className="flex justify-end my-5">
                         <SaveButton endIcon={<BsSave />} type="submit">
