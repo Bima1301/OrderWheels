@@ -1,6 +1,7 @@
 import Card from "@/Components/Atoms/Card";
 import InputLabel from "@/Components/Atoms/InputLabel";
 import Searchbar from "@/Components/Atoms/Searchbar";
+import BookingTable from "@/Components/Molecules/Booking/BookingTable";
 import VehicleTable from "@/Components/Molecules/Vehicle/VehicleTable";
 import MainLayout from "@/Layouts/MainLayout";
 import { Head, Link, router } from "@inertiajs/react";
@@ -28,7 +29,7 @@ export default function Index(props) {
     const [query, setQuery] = useState({
         keyword: props?.keyword || "",
         page: 1,
-        type: props?.type || "",
+        status: props?.status || "",
     });
 
     useEffect(() => {
@@ -39,12 +40,12 @@ export default function Index(props) {
 
     const handleChange = (event) => {
         event.preventDefault();
-        setQuery({ ...query, type: event.target.value });
+        setQuery({ ...query, status: event.target.value });
         router.get(
-            "vehicle",
+            route("index-booking"),
             {
                 ...query,
-                type: event.target.value,
+                status: event.target.value,
             },
             {
                 preserveState: true,
@@ -57,7 +58,7 @@ export default function Index(props) {
         e.preventDefault();
         setQuery({ ...query, keyword: e.target.value });
         router.get(
-            "vehicle",
+            route("index-booking"),
             {
                 ...query,
                 keyword: e.target.value,
@@ -95,21 +96,21 @@ export default function Index(props) {
             )}
             <Head title="Vehicle" />
             <Card
-                headerText="Daftar Kendaraan"
+                headerText="Data Booking"
                 rightButton={
                     <>
                         <Link
-                            href="/vehicle/create"
+                            href="/booking/export-pdf"
                             className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"
                         >
-                            Add Vehicle
+                            Export PDF
                         </Link>
                     </>
                 }
             >
                 <div className="flex md:flex-row flex-col justify-between md:items-center gap-5 mb-3">
                     <Searchbar
-                        placeholder={"Cari Kendaraan"}
+                        placeholder={"Cari Peminjam"}
                         onChange={handleDeboucheSearch}
                         defaultValue={query?.keyword}
                     />
@@ -117,34 +118,37 @@ export default function Index(props) {
                         <Select
                             labelId="demo-select-small-label"
                             id="demo-select-small"
-                            value={query?.type}
+                            value={query?.status}
                             displayEmpty
                             label="Age"
                             onChange={handleChange}
                             input={<OutlinedInput />}
                             renderValue={(selected) => {
                                 if (selected.length === 0) {
-                                    return <em>Pilih Tipe</em>;
-                                } else {
-                                    return selected;
+                                    return <em>Pilih Status</em>;
+                                } else if (selected === "pending") {
+                                    return <em>Menunggu</em>;
+                                } else if (selected === "approved") {
+                                    return <em>Disetujui</em>;
+                                } else if (selected === "rejected") {
+                                    return <em>Ditolak</em>;
                                 }
                             }}
                         >
                             <MenuItem disabled value="">
-                                <em>Pilih Tipe</em>
+                                <em>Pilih Status</em>
                             </MenuItem>
                             <MenuItem value="">
                                 <em className="text-red-500">None</em>
                             </MenuItem>
-                            {props?.vehicle_type?.map((item, index) => (
-                                <MenuItem key={index} value={item}>
-                                    {item}
-                                </MenuItem>
-                            ))}
+                            <MenuItem value="pending">Menunggu</MenuItem>
+                            <MenuItem value="approved">Disetujui</MenuItem>
+                            <MenuItem value="rejected">Ditolak</MenuItem>
+                            <MenuItem value="returned">Dikembalikan</MenuItem>
                         </Select>
                     </FormControl>
                 </div>
-                <VehicleTable data={props?.vehicles} query={query} />
+                <BookingTable data={props?.booking_vehicle} query={query} />
             </Card>
         </MainLayout>
     );

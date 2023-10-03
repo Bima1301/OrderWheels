@@ -6,6 +6,7 @@ use App\Enums\VehicleTypeEnum;
 use App\Models\VehicleBooking;
 use App\Http\Requests\StoreVehicleBookingRequest;
 use App\Http\Requests\UpdateVehicleBookingRequest;
+use App\Http\Resources\DataToCollection;
 use App\Models\User;
 use App\Models\Vehicle;
 use Inertia\Inertia;
@@ -17,7 +18,24 @@ class VehicleBookingController extends Controller
      */
     public function index()
     {
-        //
+        $keyword = request()->query('keyword');
+        $status = request()->query('status');
+        $data = [
+            "pageName" => "Data Booking",
+            'booking_vehicle' => new DataToCollection(VehicleBooking::where(
+                function ($query) use ($keyword, $status) {
+                    if ($keyword) {
+                        $query->where('driver_name', 'LIKE', "%{$keyword}%");
+                    }
+                    if ($status) {
+                        $query->where('status', $status);
+                    }
+                }
+            )->latest()->paginate(10)),
+            'keyword' => $keyword ?? '',
+            'status' => $status ?? '',
+        ];
+        return Inertia::render('Booking/Index', $data);
     }
 
     /**
@@ -27,7 +45,7 @@ class VehicleBookingController extends Controller
     {
         $vehicle = Vehicle::findOrFail($vehicleID);
         $data = [
-            "pageName" => "Vehicle",
+            "pageName" => "Daftar Kendaraan",
             'vehicle' => $vehicle,
             'vehicle_type' => VehicleTypeEnum::getValues(),
             'users' => User::all(),
@@ -40,7 +58,12 @@ class VehicleBookingController extends Controller
      */
     public function store(StoreVehicleBookingRequest $request)
     {
-        dd($request->all());
+        $bookingData = $request->all();
+        $bookingData['user_id'] = auth()->user()->id;
+
+        VehicleBooking::create($bookingData);
+
+        return redirect()->route('index-booking')->with('success', 'Booking berhasil ditambahkan');
     }
 
     /**

@@ -20,7 +20,7 @@ class VehicleController extends Controller
         $keyword = request()->query('keyword');
         $type = request()->query('type');
         $data = [
-            "pageName" => "Vehicle",
+            "pageName" => "Daftar Kendaraan",
             'vehicles' => new DataToCollection(Vehicle::where(
                 function ($query) use ($keyword, $type) {
                     if ($keyword) {
@@ -44,7 +44,7 @@ class VehicleController extends Controller
     public function create()
     {
         $data = [
-            "pageName" => "Vehicle",
+            "pageName" => "Daftar Kendaraan",
             'vehicle_type' => VehicleTypeEnum::getValues(),
         ];
         return Inertia::render('Vehicle/Create', $data);
@@ -59,7 +59,7 @@ class VehicleController extends Controller
         $vehicleData['image'] = $request->file('image')->store('images/vehicle', 'public');
         Vehicle::create($vehicleData);
 
-        return redirect()->route('vehicle.index')->with('success', 'Berhasil menambahkan data kendaraan.');
+        return redirect()->route('index-booking')->with('success', 'Berhasil menambahkan data kendaraan.');
     }
 
     /**

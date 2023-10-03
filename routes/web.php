@@ -28,8 +28,9 @@ use Inertia\Inertia;
 // });
 
 Route::get('/', [HomeController::class, 'index'])->middleware(['auth'])->name('home');
-Route::get('/vehicle/booking/{idVehicle}', [VehicleBookingController::class, 'create'])->middleware(['auth'])->name('create-booking');
-Route::post('/vehicle/booking', [VehicleBookingController::class, 'store'])->middleware(['auth'])->name('store-booking');
+Route::get('/booking', [VehicleBookingController::class, 'index'])->middleware(['auth'])->name('index-booking');
+Route::get('/booking/{idVehicle}', [VehicleBookingController::class, 'create'])->middleware(['auth'])->name('create-booking');
+Route::post('/booking', [VehicleBookingController::class, 'store'])->middleware(['auth'])->name('store-booking');
 Route::resource('vehicle', VehicleController::class)->middleware(['auth']);
 
 Route::get('/dashboard', function () {

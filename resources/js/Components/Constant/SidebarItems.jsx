@@ -23,17 +23,17 @@ export const sidebarItems = [
                         icon: BiSolidBarChartSquare,
                     },
                     {
-                        label: "Vehicle",
+                        label: "Daftar Kendaraan",
                         href: "/vehicle",
                         icon: AiFillCar,
                     },
                     {
-                        label: "Report",
-                        href: "/report",
+                        label: "Data Booking",
+                        href: "/booking",
                         icon: BiSolidBookContent,
                     },
                     {
-                        label: "User",
+                        label: "Pengguna",
                         href: "/user",
                         icon: BiSolidUserAccount,
                     },

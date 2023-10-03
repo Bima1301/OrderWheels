@@ -9,9 +9,9 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Pagination, Stack } from "@mui/material";
 import { useState } from "react";
-import ImageShowModal from "./ImageShowModal";
 import { Link, router } from "@inertiajs/react";
 import { MdCarRental } from "react-icons/md";
+import dayjs from "dayjs";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -35,43 +35,34 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 function createData(
     id,
-    image,
-    description,
-    name,
-    type,
-    service_distance,
-    amount,
-    plate_number
+    driver_name,
+    status,
+    purpose,
+    booking_date,
+    return_date
 ) {
     return {
         id,
-        image,
-        description,
-        name,
-        type,
-        service_distance,
-        amount,
-        plate_number,
+        driver_name,
+        status,
+        purpose,
+        booking_date,
+        return_date,
     };
 }
 
-export default function VehicleTable({ data, query }) {
-    const [modalShow, setModalShow] = useState(false);
-
-    const { data: vehicle } = data;
-    const rows = vehicle.map((item) => {
+export default function BookingTable({ data, query }) {
+    const { data: booking } = data;
+    const rows = booking.map((item) => {
         return createData(
             item.id,
-            item.image,
-            item.description,
-            item.name,
-            item.type,
-            item.service_distance,
-            item.amount,
-            item.plate_number
+            item.driver_name,
+            item.status,
+            item.purpose,
+            item.booking_date,
+            item.return_date
         );
     });
-    console.log(modalShow);
     return (
         <>
             <TableContainer component={Paper}>
@@ -79,16 +70,18 @@ export default function VehicleTable({ data, query }) {
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>No</StyledTableCell>
-                            <StyledTableCell>Nama</StyledTableCell>
-                            <StyledTableCell>Tipe</StyledTableCell>
+                            <StyledTableCell>Nama Peminjam</StyledTableCell>
                             <StyledTableCell align="center">
-                                Jarak Service (km)
+                                Status
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                                Jumlah Tersedia
+                                Tujuan
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                                Plat Nomor
+                                Tanggal Pinjam
+                            </StyledTableCell>
+                            <StyledTableCell align="center">
+                                Tanggal kembali
                             </StyledTableCell>
                             <StyledTableCell align="center">
                                 Action
@@ -100,50 +93,47 @@ export default function VehicleTable({ data, query }) {
                             <StyledTableRow key={row.name}>
                                 <StyledTableCell>{index + 1}</StyledTableCell>
                                 <StyledTableCell component="th" scope="row">
-                                    <button
-                                        className="font-semibold text-indigo-800"
-                                        onClick={() =>
-                                            setModalShow(
-                                                row.id +
-                                                    "-" +
-                                                    row.service_distance
-                                            )
-                                        }
-                                    >
-                                        {row.name}
-                                    </button>
-                                    <ImageShowModal
-                                        show={
-                                            modalShow ==
-                                            row.id + "-" + row.service_distance
-                                                ? true
-                                                : false
-                                        }
-                                        onHide={() => setModalShow(false)}
-                                        name={row?.name}
-                                        image={row?.image}
-                                        description={row?.description}
-                                    />
-                                </StyledTableCell>
-                                <StyledTableCell>{row.type}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {row.service_distance} km
+                                    {row.driver_name}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    {row.amount}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <p className="bg-slate-800 text-white p-1 rounded-sm">
-                                        {row.plate_number}
+                                    <p className="px-3 py-1 bg-indigo-200 rounded-xl font-semibold">
+                                        {row.status == "pending"
+                                            ? "Menunggu"
+                                            : row.status == "approved"
+                                            ? "Disetujui"
+                                            : row.status == "rejected"
+                                            ? "Ditolak"
+                                            : row.status == "returned"
+                                            ? "Dikembalikan"
+                                            : "-"}
                                     </p>
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
-                                    <Link
-                                        href={`/booking/${row.id}`}
-                                        className="bg-purple-600 px-4 py-3 rounded-md text-white font-bold inline-flex items-center gap-2 hover:bg-purple-500"
-                                    >
-                                        Pinjam <MdCarRental size={20} />
-                                    </Link>
+                                    {row.purpose}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {dayjs(row.booking_date).format(
+                                        "DD MMMM YYYY"
+                                    )}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {dayjs(row.return_date).format(
+                                        "DD MMMM YYYY"
+                                    )}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {row.status == "approved" ? (
+                                        <Link
+                                            href={`/booking/${row.id}`}
+                                            className="bg-purple-600 px-4 py-3 rounded-md text-white font-bold inline-flex items-center gap-2 hover:bg-purple-500"
+                                        >
+                                            {" "}
+                                            Selesai
+                                            <MdCarRental size={20} />
+                                        </Link>
+                                    ) : (
+                                        "-"
+                                    )}
                                 </StyledTableCell>
                             </StyledTableRow>
                         ))}
