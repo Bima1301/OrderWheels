@@ -1,9 +1,4 @@
-import {
-    BsDoorOpen,
-    BsFillDoorOpenFill,
-    BsFillGearFill,
-    BsGearWideConnected,
-} from "react-icons/bs";
+import { BsDoorOpenFill } from "react-icons/bs";
 import {
     BiSolidBarChartSquare,
     BiSolidBookContent,
@@ -20,21 +15,25 @@ export const sidebarItems = [
                     {
                         label: "Dashboard",
                         href: "/",
+                        role: "all",
                         icon: BiSolidBarChartSquare,
                     },
                     {
                         label: "Daftar Kendaraan",
                         href: "/vehicle",
+                        role: "admin",
                         icon: AiFillCar,
                     },
                     {
                         label: "Data Booking",
                         href: "/booking",
+                        role: "all",
                         icon: BiSolidBookContent,
                     },
                     {
                         label: "Pengguna",
-                        href: "/user",
+                        href: "/users",
+                        role: "admin",
                         icon: BiSolidUserAccount,
                     },
                 ],
@@ -46,15 +45,17 @@ export const sidebarItems = [
             {
                 mainLabel: "",
                 items: [
-                    {
-                        label: "Pengaturan",
-                        href: "/dashboard/setting",
-                        icon: BsGearWideConnected,
-                    },
+                    // {
+                    //     label: "Pengaturan",
+                    //     href: "/dashboard/setting",
+                    //     role: "all",
+                    //     icon: BsGearWideConnected,
+                    // },
                     {
                         label: "Keluar",
                         href: "/logout",
-                        icon: BsDoorOpen,
+                        role: "all",
+                        icon: BsDoorOpenFill,
                     },
                 ],
             },

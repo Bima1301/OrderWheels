@@ -10,6 +10,7 @@ use App\Http\Resources\DataToCollection;
 use App\Models\FuelConsumption;
 use App\Models\User;
 use App\Models\Vehicle;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class VehicleBookingController extends Controller
@@ -114,5 +115,19 @@ class VehicleBookingController extends Controller
     public function destroy(VehicleBooking $vehicleBooking)
     {
         //
+    }
+
+    public function approvalBooking(Request $request, $idBooking)
+    {
+        //validate request
+        $request->validate([
+            'status' => 'required',
+        ]);
+
+        VehicleBooking::where('id', $idBooking)->update([
+            'status' => $request->status,
+        ]);
+
+        return redirect()->back()->with('success', 'Booking berhasil diupdate');
     }
 }

@@ -16,6 +16,9 @@ import { AiFillCar } from "react-icons/ai";
 import { BsCheckCircle } from "react-icons/bs";
 import VehicleDetailModal from "../Molecules/Booking/VehicleDetailModal";
 import FuelConsumptionDetail from "../Molecules/Booking/FuelConsumptionDetail";
+import { MdApproval } from "react-icons/md";
+import toast from "react-hot-toast";
+import ApprovalModal from "../Molecules/Booking/ApprovalModal";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -58,7 +61,8 @@ function createData(
     };
 }
 
-export default function BookingTable({ data, query }) {
+export default function BookingTable({ data, query, userRole }) {
+    console.log();
     const [modalShow, setModalShow] = useState(false);
 
     const { data: booking } = data;
@@ -104,7 +108,7 @@ export default function BookingTable({ data, query }) {
                     </TableHead>
                     <TableBody>
                         {rows.map((row, index) => (
-                            <StyledTableRow key={row.name}>
+                            <StyledTableRow key={index}>
                                 <StyledTableCell>{index + 1}</StyledTableCell>
                                 <StyledTableCell component="th" scope="row">
                                     {row.driver_name}
@@ -176,18 +180,26 @@ export default function BookingTable({ data, query }) {
                                 </StyledTableCell>
                                 <StyledTableCell align="center">
                                     {row.status == "approved" ? (
-                                        <button
-                                            onClick={() =>
-                                                setModalShow(
-                                                    row.id + "-" + row.status
-                                                )
-                                            }
-                                            className="bg-purple-600 px-4 py-3 rounded-md text-white font-bold inline-flex items-center gap-2 hover:bg-purple-500"
-                                        >
-                                            {" "}
-                                            Selesai
-                                            <BsCheckCircle size={20} />
-                                        </button>
+                                        <>
+                                            {userRole == "admin" ? (
+                                                <button
+                                                    onClick={() =>
+                                                        setModalShow(
+                                                            row.id +
+                                                                "-" +
+                                                                row.status
+                                                        )
+                                                    }
+                                                    className="bg-purple-600 px-4 py-3 rounded-md text-white font-bold inline-flex items-center gap-2 hover:bg-purple-500"
+                                                >
+                                                    {" "}
+                                                    Selesai
+                                                    <BsCheckCircle size={20} />
+                                                </button>
+                                            ) : (
+                                                "-"
+                                            )}
+                                        </>
                                     ) : row.status == "returned" ? (
                                         <>
                                             <button
@@ -219,6 +231,44 @@ export default function BookingTable({ data, query }) {
                                                 onHide={() =>
                                                     setModalShow(false)
                                                 }
+                                            />
+                                        </>
+                                    ) : row.status == "pending" ? (
+                                        <>
+                                            {userRole == "approver" ? (
+                                                <button
+                                                    onClick={() =>
+                                                        setModalShow(
+                                                            row.id +
+                                                                "-" +
+                                                                row.status +
+                                                                "approval"
+                                                        )
+                                                    }
+                                                    className="bg-green-600 px-4 py-3 rounded-md text-white font-bold inline-flex items-center gap-2 hover:bg-green-500"
+                                                >
+                                                    {" "}
+                                                    Approval
+                                                    <MdApproval size={20} />
+                                                </button>
+                                            ) : (
+                                                "-"
+                                            )}
+                                            <ApprovalModal
+                                                show={
+                                                    modalShow ==
+                                                    row.id +
+                                                        "-" +
+                                                        row.status +
+                                                        "approval"
+                                                        ? true
+                                                        : false
+                                                }
+                                                onHide={() =>
+                                                    setModalShow(false)
+                                                }
+                                                id={row.id}
+                                                dataEdit={row}
                                             />
                                         </>
                                     ) : (

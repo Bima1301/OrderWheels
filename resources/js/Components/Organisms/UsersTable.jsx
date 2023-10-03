@@ -12,6 +12,8 @@ import { useState } from "react";
 import ImageShowModal from "../Molecules/Vehicle/ImageShowModal";
 import { Link, router } from "@inertiajs/react";
 import { MdCarRental } from "react-icons/md";
+import { BiUserCheck } from "react-icons/bi";
+import RoleSettingModal from "../Molecules/Users/RoleSettingModal";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -32,42 +34,28 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(
-    id,
-    image,
-    description,
-    name,
-    type,
-    service_distance,
-    amount,
-    plate_number
-) {
+function createData(id, name, email, position, role) {
     return {
         id,
-        image,
-        description,
         name,
-        type,
-        service_distance,
-        amount,
-        plate_number,
+        email,
+        position,
+        role,
     };
 }
 
-export default function VehicleTable({ data, query }) {
+export default function UsersTable({ data, query, roles }) {
     const [modalShow, setModalShow] = useState(false);
 
-    const { data: vehicle } = data;
-    const rows = vehicle.map((item) => {
+    const { data: users } = data;
+    console.log(users);
+    const rows = users.map((item) => {
         return createData(
             item.id,
-            item.image,
-            item.description,
             item.name,
-            item.type,
-            item.service_distance,
-            item.amount,
-            item.plate_number
+            item.email,
+            item.position,
+            item.role
         );
     });
     return (
@@ -78,15 +66,14 @@ export default function VehicleTable({ data, query }) {
                         <TableRow>
                             <StyledTableCell>No</StyledTableCell>
                             <StyledTableCell>Nama</StyledTableCell>
-                            <StyledTableCell>Tipe</StyledTableCell>
                             <StyledTableCell align="center">
-                                Jarak Service (km)
+                                Email
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                                Jumlah Tersedia
+                                Jabatan
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                                Plat Nomor
+                                Role
                             </StyledTableCell>
                             <StyledTableCell align="center">
                                 Action
@@ -97,51 +84,41 @@ export default function VehicleTable({ data, query }) {
                         {rows.map((row, index) => (
                             <StyledTableRow key={index}>
                                 <StyledTableCell>{index + 1}</StyledTableCell>
-                                <StyledTableCell component="th" scope="row">
+                                <StyledTableCell>{row.name}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {row.email}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    {row.position}
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <p className="font-semibold">
+                                        {row.role?.name
+                                            .charAt(0)
+                                            .toUpperCase() +
+                                            row.role?.name.slice(1) || "-"}
+                                    </p>
+                                </StyledTableCell>
+                                <StyledTableCell align="center">
                                     <button
-                                        className="font-semibold text-indigo-800"
+                                        className="bg-indigo-600 px-4 py-3 rounded-md text-white font-bold inline-flex items-center gap-2 hover:bg-indigo-500"
                                         onClick={() =>
-                                            setModalShow(
-                                                row.id +
-                                                    "-" +
-                                                    row.service_distance
-                                            )
+                                            setModalShow(row.id + "-" + index)
                                         }
                                     >
-                                        {row.name}
+                                        Role Setting
+                                        <BiUserCheck size={20} />
                                     </button>
-                                    <ImageShowModal
+                                    <RoleSettingModal
+                                        dataEdit={row}
+                                        roles={roles}
                                         show={
-                                            modalShow ==
-                                            row.id + "-" + row.service_distance
+                                            modalShow == row.id + "-" + index
                                                 ? true
                                                 : false
                                         }
                                         onHide={() => setModalShow(false)}
-                                        name={row?.name}
-                                        image={row?.image}
-                                        description={row?.description}
                                     />
-                                </StyledTableCell>
-                                <StyledTableCell>{row.type}</StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {row.service_distance} km
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    {row.amount}
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <p className="bg-slate-800 text-white p-1 rounded-sm">
-                                        {row.plate_number}
-                                    </p>
-                                </StyledTableCell>
-                                <StyledTableCell align="center">
-                                    <Link
-                                        href={`/booking/${row.id}`}
-                                        className="bg-purple-600 px-4 py-3 rounded-md text-white font-bold inline-flex items-center gap-2 hover:bg-purple-500"
-                                    >
-                                        Pinjam <MdCarRental size={20} />
-                                    </Link>
                                 </StyledTableCell>
                             </StyledTableRow>
                         ))}

@@ -10,7 +10,6 @@ export default function MainLayout({ children, category }) {
     const [showNav, setShowNav] = useState(true);
 
     const { auth } = usePage().props;
-
     const isMobile = useIsMobile();
     useEffect(() => {
         if (isMobile) {
@@ -29,7 +28,11 @@ export default function MainLayout({ children, category }) {
                 name={auth?.user?.name}
             />
             <Transition show={showNav}>
-                <Sidebar setShowNav={setShowNav} category={category} />
+                <Sidebar
+                    setShowNav={setShowNav}
+                    category={category}
+                    userRole={auth?.user?.role?.name}
+                />
             </Transition>
             <div className={`pt-24 ${showNav && !isMobile ? "pl-64" : ""}`}>
                 <main className="bg-transparent overflow-hidden rounded-sm md:p-12 p-7">

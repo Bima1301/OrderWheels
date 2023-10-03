@@ -4,7 +4,7 @@ import { Link, usePage } from "@inertiajs/react";
 import DashboardItem from "../Atoms/DashboardItem";
 import { GiCarWheel } from "react-icons/gi";
 
-const Sidebar = ({ setShowNav, category }) => {
+const Sidebar = ({ setShowNav, userRole }) => {
     const { pageName } = usePage().props;
     return (
         <aside className="fixed  top-0 flex flex-col justify-between h-screen  bg-purple-500 transition duration-300 xl:w-64 w-60 ">
@@ -32,6 +32,7 @@ const Sidebar = ({ setShowNav, category }) => {
                 <div className="flex flex-col">
                     {sidebarItems[0]?.top?.map((item) => (
                         <DashboardItem
+                            userRole={userRole}
                             key={item.mainLabel}
                             mainLabel={item.mainLabel}
                             items={item.items}
@@ -42,6 +43,7 @@ const Sidebar = ({ setShowNav, category }) => {
                 <div className="flex flex-col mb-2">
                     {sidebarItems[1]?.bottom?.map((item) => (
                         <DashboardItem
+                            userRole={userRole}
                             key={item.mainLabel}
                             mainLabel={item.mainLabel}
                             items={item.items}

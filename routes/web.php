@@ -29,11 +29,14 @@ use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->middleware(['auth'])->name('home');
 Route::get('/booking', [VehicleBookingController::class, 'index'])->middleware(['auth'])->name('index-booking');
+Route::patch('/booking/approval/{idBooking}', [VehicleBookingController::class, 'approvalBooking'])->middleware(['auth'])->name('approval-booking');
 Route::get('/booking/{idVehicle}', [VehicleBookingController::class, 'create'])->middleware(['auth'])->name('create-booking');
 Route::post('/booking', [VehicleBookingController::class, 'store'])->middleware(['auth'])->name('store-booking');
 Route::get('/booking/return/{idBooking}', [VehicleBookingController::class, 'edit'])->middleware(['auth'])->name('edit-booking');
 Route::patch('/booking/return/{idBooking}', [VehicleBookingController::class, 'update'])->middleware(['auth'])->name('update-booking');
 
+Route::get('/users', [HomeController::class, 'users'])->middleware(['auth'])->name('users');
+Route::patch('/users/role/update/{userId}', [HomeController::class, 'updateRole'])->middleware(['auth'])->name('update-user-role');
 
 Route::resource('vehicle', VehicleController::class)->middleware(['auth']);
 

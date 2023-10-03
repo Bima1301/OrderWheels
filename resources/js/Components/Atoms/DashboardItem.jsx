@@ -32,23 +32,25 @@ const Items = ({ label, icon: Icon, active, href, onClick, isButton }) => (
     </>
 );
 
-const DashboardItem = ({ mainLabel, items, pageName }) => (
+const DashboardItem = ({ mainLabel, items, pageName, userRole }) => (
     <div className="mb-4">
         <p className="px-6 mx-5 md:mb-2 mb-0 text-white text-sm text-opacity-[0.5]">
             {mainLabel}
         </p>
         {items.map((item, index) => {
-            return (
-                <Items
-                    key={index}
-                    label={item.label}
-                    icon={item.icon}
-                    active={item.label === pageName}
-                    href={item.href}
-                    isButton={item.isButton}
-                    onClick={item.onClick}
-                />
-            );
+            if (item.role == userRole || item.role === "all") {
+                return (
+                    <Items
+                        key={index}
+                        label={item.label}
+                        icon={item.icon}
+                        active={item.label === pageName}
+                        href={item.href}
+                        isButton={item.isButton}
+                        onClick={item.onClick}
+                    />
+                );
+            }
         })}
     </div>
 );
