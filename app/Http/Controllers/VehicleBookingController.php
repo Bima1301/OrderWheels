@@ -141,7 +141,6 @@ class VehicleBookingController extends Controller
 
     public function approvalBooking(Request $request, $idBooking)
     {
-        //validate request
         $request->validate([
             'status' => 'required',
         ]);

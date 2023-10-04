@@ -15,15 +15,6 @@ export default function ApprovalModal({ show, onHide, dataEdit }) {
         status: "",
     });
 
-    useEffect(() => {
-        if (dataEdit?.status) {
-            setData({
-                ...data,
-                status: dataEdit.status,
-            });
-        }
-    }, [dataEdit]);
-
     const handleSubmit = (e) => {
         e.preventDefault();
         patch(route("approval-booking", dataEdit?.id), {
@@ -64,7 +55,7 @@ export default function ApprovalModal({ show, onHide, dataEdit }) {
                             <Select
                                 labelId="demo-select-small-label"
                                 id="demo-select-small"
-                                value={data?.status}
+                                value={""}
                                 displayEmpty
                                 label="Status"
                                 onChange={(e) =>
@@ -91,7 +82,7 @@ export default function ApprovalModal({ show, onHide, dataEdit }) {
                                 <MenuItem value="rejected">Tolak</MenuItem>
                             </Select>
                         </FormControl>
-                        <InputError message={errors?.role} className="mt-1" />
+                        <InputError message={errors?.status} className="mt-1" />
                     </div>
                 </form>
             </div>
