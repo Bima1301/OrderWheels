@@ -12,7 +12,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import TextAreaInput from "@/Components/Atoms/TextAreaInput";
 
-export default function Create(props) {
+export default function Create(props) { 
     const [previewImg, setPreviewImg] = useState("");
     const { data, setData, post, progress, errors } = useForm({
         name: "",
@@ -49,6 +49,7 @@ export default function Create(props) {
             },
         });
     };
+    console.log(errors);
     return (
         <MainLayout>
             <Head title="Create Vehicle" />
@@ -66,7 +67,10 @@ export default function Create(props) {
                             autoComplete="current-name"
                             onChange={handleChange}
                         />
-                        <InputError message={errors?.name} className="mt-2" />
+                        <InputError
+                            message={props?.errors?.name}
+                            className="mt-2"
+                        />
                     </div>
 
                     <div className="flex md:flex-row flex-col md:gap-3 gap-0 justify-center md:mb-4 mb-0">
@@ -86,7 +90,7 @@ export default function Create(props) {
                                 autoComplete="current-plate_number"
                             />
                             <InputError
-                                message={errors?.plate_number}
+                                message={props?.errors?.plate_number}
                                 className="mt-2"
                             />
                         </div>
@@ -117,7 +121,7 @@ export default function Create(props) {
                                 </Select>
                             </FormControl>
                             <InputError
-                                message={errors?.type}
+                                message={props?.errors?.type}
                                 className="mt-2"
                             />
                         </div>
@@ -168,7 +172,7 @@ export default function Create(props) {
                                 />
                             </label>
                             <InputError
-                                message={errors?.image}
+                                message={props?.errors?.image}
                                 className="mt-2"
                             />
                         </div>
@@ -189,7 +193,7 @@ export default function Create(props) {
                                     autoComplete="current-service_distance"
                                 />
                                 <InputError
-                                    message={errors?.service_distance}
+                                    message={props?.errors?.service_distance}
                                     className="mt-2"
                                 />
                             </div>
@@ -209,7 +213,7 @@ export default function Create(props) {
                                     autoComplete="current-amount"
                                 />
                                 <InputError
-                                    message={errors?.amount}
+                                    message={props?.errors?.amount}
                                     className="mt-2"
                                 />
                             </div>
@@ -227,7 +231,7 @@ export default function Create(props) {
                             autoComplete="current-description"
                         />
                         <InputError
-                            message={errors?.description}
+                            message={props?.errors?.description}
                             className="mt-2"
                         />
                     </div>

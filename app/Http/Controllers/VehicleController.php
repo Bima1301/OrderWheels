@@ -55,6 +55,7 @@ class VehicleController extends Controller
      */
     public function store(StoreVehicleRequest $request)
     {
+        dd($request->all());
         $vehicleData = $request->all();
         $vehicleData['image'] = $request->file('image')->store('images/vehicle', 'public');
         Vehicle::create($vehicleData);
