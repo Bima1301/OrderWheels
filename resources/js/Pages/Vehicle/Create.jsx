@@ -12,7 +12,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import TextAreaInput from "@/Components/Atoms/TextAreaInput";
 
-export default function Create(props) { 
+export default function Create(props) {
     const [previewImg, setPreviewImg] = useState("");
     const { data, setData, post, progress, errors } = useForm({
         name: "",
@@ -34,8 +34,9 @@ export default function Create(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route("vehicle.store"), {
-            preserveScroll: false,
-            preserveState: false,
+            preserveScroll: true,
+            preserveState: true,
+            replace: true,
             onProgress: () => {
                 toast.loading("Loading...");
             },
@@ -49,7 +50,6 @@ export default function Create(props) {
             },
         });
     };
-    console.log(errors);
     return (
         <MainLayout>
             <Head title="Create Vehicle" />
@@ -67,10 +67,7 @@ export default function Create(props) {
                             autoComplete="current-name"
                             onChange={handleChange}
                         />
-                        <InputError
-                            message={props?.errors?.name}
-                            className="mt-2"
-                        />
+                        <InputError message={errors?.name} className="mt-2" />
                     </div>
 
                     <div className="flex md:flex-row flex-col md:gap-3 gap-0 justify-center md:mb-4 mb-0">
@@ -90,7 +87,7 @@ export default function Create(props) {
                                 autoComplete="current-plate_number"
                             />
                             <InputError
-                                message={props?.errors?.plate_number}
+                                message={errors?.plate_number}
                                 className="mt-2"
                             />
                         </div>
@@ -121,7 +118,7 @@ export default function Create(props) {
                                 </Select>
                             </FormControl>
                             <InputError
-                                message={props?.errors?.type}
+                                message={errors?.type}
                                 className="mt-2"
                             />
                         </div>
@@ -172,7 +169,7 @@ export default function Create(props) {
                                 />
                             </label>
                             <InputError
-                                message={props?.errors?.image}
+                                message={errors?.image}
                                 className="mt-2"
                             />
                         </div>
@@ -193,7 +190,7 @@ export default function Create(props) {
                                     autoComplete="current-service_distance"
                                 />
                                 <InputError
-                                    message={props?.errors?.service_distance}
+                                    message={errors?.service_distance}
                                     className="mt-2"
                                 />
                             </div>
@@ -213,7 +210,7 @@ export default function Create(props) {
                                     autoComplete="current-amount"
                                 />
                                 <InputError
-                                    message={props?.errors?.amount}
+                                    message={errors?.amount}
                                     className="mt-2"
                                 />
                             </div>
@@ -231,7 +228,7 @@ export default function Create(props) {
                             autoComplete="current-description"
                         />
                         <InputError
-                            message={props?.errors?.description}
+                            message={errors?.description}
                             className="mt-2"
                         />
                     </div>

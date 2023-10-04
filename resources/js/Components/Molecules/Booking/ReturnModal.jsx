@@ -4,19 +4,18 @@ import { LiaTimesCircleSolid } from "react-icons/lia";
 import InputLabel from "@/Components/Atoms/InputLabel";
 import TextInput from "@/Components/Atoms/TextInput";
 import InputError from "@/Components/Atoms/InputError";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import toast from "react-hot-toast";
 import TextAreaInput from "@/Components/Atoms/TextAreaInput";
 
 export default function ReturnModal({ show, onHide, dataEdit }) {
-    const { data, setData, post, progress, errors } = useForm({
+    const { data, setData, post, progress, errors, reset } = useForm({
         _method: "patch",
         distance: "",
         liters: "",
         cost_per_liter: "",
         description: "",
     });
-
     const handleChange = (event) => {
         setData({
             ...data,
@@ -27,8 +26,9 @@ export default function ReturnModal({ show, onHide, dataEdit }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route("update-booking", dataEdit?.id), {
-            preserveScroll: false,
-            preserveState: false,
+            preserveScroll: true,
+            preserveState: true,
+            replace: true,
             onProgress: () => {
                 toast.loading("Loading...");
             },
@@ -46,7 +46,12 @@ export default function ReturnModal({ show, onHide, dataEdit }) {
         <Modal show={show}>
             <div className="px-5 py-4 flex flex-row justify-between border-b-2 border-b-slate-300">
                 <p className="text-lg font-bold">Pengembalian Kendaraan</p>
-                <button onClick={() => onHide()}>
+                <button
+                    onClick={() => {
+                        onHide();
+                        reset();
+                    }}
+                >
                     <LiaTimesCircleSolid size={30} />
                 </button>
             </div>

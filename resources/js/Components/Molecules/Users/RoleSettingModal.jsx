@@ -27,8 +27,9 @@ export default function RoleSettingModal({ show, onHide, dataEdit, roles }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         patch(route("update-user-role", dataEdit?.id), {
-            preserveScroll: false,
-            preserveState: false,
+            preserveScroll: true,
+            preserveState: true,
+            replace: true,
             onProgress: () => {
                 toast.loading("Loading...");
             },

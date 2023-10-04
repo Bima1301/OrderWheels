@@ -53,6 +53,7 @@ export default function Index(props) {
             {
                 preserveState: false,
                 preserveScroll: true,
+                replace: true,
             }
         );
     };
@@ -67,8 +68,9 @@ export default function Index(props) {
                 keyword: e.target.value,
             },
             {
-                preserveState: false,
+                preserveState: true,
                 preserveScroll: true,
+                replace: true,
             }
         );
     };

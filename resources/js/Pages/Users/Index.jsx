@@ -46,8 +46,9 @@ export default function Index(props) {
                 role: event.target.value,
             },
             {
-                preserveState: false,
+                preserveState: true,
                 preserveScroll: true,
+                replace: true,
             }
         );
     };
@@ -64,6 +65,7 @@ export default function Index(props) {
             {
                 preserveState: false,
                 preserveScroll: true,
+                replace: true,
             }
         );
     };
@@ -144,7 +146,11 @@ export default function Index(props) {
                         </Select>
                     </FormControl>
                 </div>
-                <UsersTable data={props?.users} query={query} roles={props?.roles} />
+                <UsersTable
+                    data={props?.users}
+                    query={query}
+                    roles={props?.roles}
+                />
             </Card>
         </MainLayout>
     );
